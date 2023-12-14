@@ -38,11 +38,10 @@ public class UserService  implements UserDetailsService {
 
     public User createUser(RegisterUserDTO registerUserDTO) {
         Roles roles = rolesService.findById(registerUserDTO.getRoles());
-
         if(this.userRespository.findByUsername(registerUserDTO.getLogin()) != null) {
             throw  new UsernameNotFoundException("Usuario já cadastrado.");
         }
-
+        roles.equals(roles.getId());
         String senhaEncode = new BCryptPasswordEncoder().encode(registerUserDTO.getSenha());
         User user = new User(registerUserDTO.getLogin(), senhaEncode, registerUserDTO.getUsername(), roles);
         return this.userRespository.save(user);

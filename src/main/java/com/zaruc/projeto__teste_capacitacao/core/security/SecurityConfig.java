@@ -66,6 +66,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/roles/cadastrar").permitAll()
                         .requestMatchers("/auth/welcome").permitAll()
                         .requestMatchers("/auth/registrar-usuario").permitAll()
                 ).build();
