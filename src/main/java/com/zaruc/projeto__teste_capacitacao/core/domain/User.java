@@ -4,9 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +25,7 @@ public class User implements UserDetails {
     private String username;
     private String senha;
 
+    private List<GrantedAuthority> authorities;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roles_id")
     private Roles roles;
@@ -31,16 +36,27 @@ public class User implements UserDetails {
         this.senha = senha;
         this.roles = roles;
     }
+    public User(User user) {
+        username = user.getUsername();
+        senha = user.getPassword();
+        authorities = Arrays.stream(user.getRoles().getNome().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return senha;
     }
 
+    @Override
+    public String getUsername() {
+        return login;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
