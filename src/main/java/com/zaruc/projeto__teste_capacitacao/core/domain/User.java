@@ -3,8 +3,11 @@ package com.zaruc.projeto__teste_capacitacao.core.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
@@ -31,10 +34,10 @@ public class User implements UserDetails {
     private Roles roles;
 
     public User(String login, String username, String senha, Roles roles) {
-        this.login = login;
-        this.username= username;
-        this.senha = senha;
-        this.roles = roles;
+        this.login    = login;
+        this.username = username;
+        this.senha    = senha;
+        this.roles    = roles;
     }
     public User(User user) {
         username = user.getUsername();
@@ -45,7 +48,7 @@ public class User implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -55,7 +58,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
     }
     @Override
     public boolean isAccountNonExpired() {

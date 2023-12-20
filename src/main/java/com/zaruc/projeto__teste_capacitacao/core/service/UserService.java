@@ -28,7 +28,7 @@ public class UserService  implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(
-                user.getLogin(),
+                user.getUsername(),
                 user.getSenha(),
                 user.isEnabled(),
                 true,true,true,
@@ -43,7 +43,7 @@ public class UserService  implements UserDetailsService {
         }
         roles.equals(roles.getId());
         String senhaEncode = new BCryptPasswordEncoder().encode(registerUserDTO.getSenha());
-        User user = new User(registerUserDTO.getLogin(), senhaEncode, registerUserDTO.getUsername(), roles);
+        User user = new User(registerUserDTO.getLogin(), registerUserDTO.getUsername(),  senhaEncode, roles);
         return this.userRespository.save(user);
     }
 }
