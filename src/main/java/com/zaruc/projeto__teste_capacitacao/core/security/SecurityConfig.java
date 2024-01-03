@@ -70,7 +70,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/registrar-usuario").permitAll()
                         .requestMatchers("/roles/cadastrar").permitAll()
                         .requestMatchers("/auth/welcome").authenticated()
-                        .requestMatchers("/users/","/users/desativar-usuario/{id}","/users/atualizar-usuario/{id}").permitAll()
+                        .requestMatchers("/users/","/users/desativar-usuario/{id}").permitAll()
+                        .requestMatchers("/users/atualizar-usuario/{id}").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(https -> https.authenticationEntryPoint(authenticatedEntryPoint))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();

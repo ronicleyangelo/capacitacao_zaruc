@@ -1,27 +1,37 @@
 package com.zaruc.projeto__teste_capacitacao.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaruc.projeto__teste_capacitacao.core.controller.AuthController;
-import com.zaruc.projeto__teste_capacitacao.core.domain.Roles;
 import com.zaruc.projeto__teste_capacitacao.core.domain.User;
 import com.zaruc.projeto__teste_capacitacao.core.dto.RegisterUserDTO;
 import com.zaruc.projeto__teste_capacitacao.core.repository.RolesRespository;
 import com.zaruc.projeto__teste_capacitacao.core.repository.UserRespository;
 import com.zaruc.projeto__teste_capacitacao.core.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.management.relation.Role;
 import org.junit.jupiter.api.Assertions;
-import java.util.Optional;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.server.ResponseStatusException;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @ContextConfiguration
 public class AuthControllerTest {
     @InjectMocks
@@ -37,22 +47,43 @@ public class AuthControllerTest {
     private UserRespository userRespository;
     private RegisterUserDTO registerUserDTO;
     private Role role;
+    private MockMvc mockMvc;
+    private String url;
+    private String json;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    @BeforeEach
+    public void setup() throws JsonProcessingException {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(authController).alwaysDo(print()).build();
+        url = "/auth";
+        registerUserDTO = new RegisterUserDTO("maria", "maria_sousa", 1L, "maria1230");
+        json = objectMapper.writeValueAsString(registerUserDTO);
+    }
+
     @Test
-    void salvarUsuario() {
-        RegisterUserDTO registerUserDTO = new RegisterUserDTO("maria", "maria_sousa", 1L, "maria1230");
-        User user = new User();
-        user.setId(1L);
-        user.setUsername(registerUserDTO.getUsername());
-        user.setLogin(registerUserDTO.getLogin());
-        user.setSenha(registerUserDTO.getSenha());
+    void salvarUsuario() throws Exception {
 
-        when(userService.createUser(registerUserDTO)).thenReturn(user);
-        when(rolesRespository.findByNome("ROLE_USER")).thenReturn(Optional.empty());
-        when(rolesRespository.save(any(Roles.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        mockMvc.perform(post(url + "/registrar-usuario")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
 
-        var response = authController.registraUsuario(registerUserDTO);
+        verify(userService).createUser(registerUserDTO);
+        verifyNoMoreInteractions(userService);
+    }
 
-        Assertions.assertEquals(user,response.getBody());
+    @Test
+    void naoDeveEnviarCasoSejaNull() throws Exception {
+        when(userService.createUser(any(RegisterUserDTO.class)))
+                .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        mockMvc.perform(post(url + "/registrar-usuario")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+        verify(userService).createUser(any(RegisterUserDTO.class));
     }
 
 }
