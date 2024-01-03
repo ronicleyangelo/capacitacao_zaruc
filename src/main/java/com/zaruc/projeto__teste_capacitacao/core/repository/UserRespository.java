@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserRespository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    UserDetails findByUsername(String login);
+    UserDetails findByUsername(String username);
 }

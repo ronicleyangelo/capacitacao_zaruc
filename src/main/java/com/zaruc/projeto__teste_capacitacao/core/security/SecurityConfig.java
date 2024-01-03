@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,6 +51,7 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
@@ -66,13 +68,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/registrar-usuario").permitAll()
-                        .requestMatchers("/roles/cadastrar").authenticated()
-                        .requestMatchers("/auth/welcome").hasRole("ADMIN")
+                        .requestMatchers("/roles/cadastrar").permitAll()
+                        .requestMatchers("/auth/welcome").authenticated()
+                        .requestMatchers("/users/","/users/desativar-usuario/{id}","/users/atualizar-usuario/{id}").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(https -> https.authenticationEntryPoint(authenticatedEntryPoint))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
-
-    // Password Encoding
 
 }

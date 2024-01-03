@@ -3,17 +3,12 @@ package com.zaruc.projeto__teste_capacitacao.core.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +23,6 @@ public class User implements UserDetails {
     private String username;
     private String senha;
 
-    private List<GrantedAuthority> authorities;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roles_id")
     private Roles roles;
@@ -39,18 +33,16 @@ public class User implements UserDetails {
         this.senha    = senha;
         this.roles    = roles;
     }
-    public User(User user) {
-        username = user.getUsername();
-        senha = user.getPassword();
-        authorities = Arrays.stream(user.getRoles().getNome().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.roles.equals(Roles.class)) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-//        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.roles != null) {
+            // Acessa a propriedade roles para forçar o carregamento
+            String roleName = this.roles.getNome();
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + roleName));
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override

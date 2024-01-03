@@ -46,4 +46,8 @@ public class UserService  implements UserDetailsService {
         User user = new User(registerUserDTO.getLogin(), registerUserDTO.getUsername(),  senhaEncode, roles);
         return this.userRespository.save(user);
     }
+
+//    public User delete(Long id){
+//        return userRespository.deleteById(id);
+//    }
 }

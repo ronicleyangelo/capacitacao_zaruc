@@ -9,20 +9,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 
 @Component
-public class AuthenticatedEntryPoint implements AuthenticationEntryPoint {
+public class AuthenticatedEntryPoint implements AuthenticationEntryPoint, Serializable {
+    private static final long serialVersionUID = -7858869558953243875L;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.addHeader("WWW-Authenticate", "Basic realm=" + " + getRealmName() + " +"");
+//        response.addHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
+        response.addHeader("WWW-Authenticate", "Basic realm=\"Spring Security\"");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = response.getWriter();
         writer.println("HTTP Status 401 - " + authException.getMessage());
     }
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        setRealmName("Baeldung");
-//        super.afterPropertiesSet();
-//    }
-
 }
