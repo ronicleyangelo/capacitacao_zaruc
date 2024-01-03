@@ -11,4 +11,10 @@ public class RegisterUserDTO {
     private Long roles;
     private String senha;
 
+    public RegisterUserDTO(String login, String username, Long roles, String senha) {
+        this.login = login;
+        this.username = username;
+        this.roles = roles;
+        this.senha = senha;
+    }
 }
