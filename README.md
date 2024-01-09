@@ -9,4 +9,5 @@
 > No <strong>Controller</strong>
 foi criado o <strong><em>AuthComtroller</em></strong> para lidar com a   autenticação do <em>Usuário</em>.
 Usamos SpringSecurity para lidar com autenticação e o uso do <em>JWT Token
-</em> para gerar quando o usuário fazer o login 
+</em> para quando o usuário fazer o login
+e tenha o token
