@@ -10,4 +10,13 @@
 foi criado o <strong><em>AuthComtroller</em></strong> para lidar com a   autenticação do <em>Usuário</em>.
 Usamos SpringSecurity para lidar com autenticação e o uso do <em>JWT Token
 </em> para quando o usuário fazer o login
-e tenha o token
+e tenha o token. 
+
+
+## 👨‍💻 Tecnologia 
+<ul>
+    <li>Java</li>
+    <li>SpringBoot</li>
+    <li>SpringSecurity</li>  
+    <li></li>
+</ul>
