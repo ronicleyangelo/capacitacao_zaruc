@@ -11,7 +11,7 @@
 ---
 > No <strong>Controller</strong>
 foi criado o <strong><em>AuthComtroller</em></strong> para lidar com a   autenticação do <em>Usuário</em>.
-Usando <em>SpringSecurity<\em> para lidar com autenticação e o uso do <em>JWT Token
+Usando <em>SpringSecurity</em> para lidar com autenticação e o uso do <em>JWT Token
 </em> para quando o usuário fazer o login
 obtiver o token. 
 ---
