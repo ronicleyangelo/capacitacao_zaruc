@@ -6,7 +6,7 @@
 <em>PUT</em> e <em>DELETE</em>.
 ---
 
-## Desenvolvimento do Projeto
+## 🧑🏽‍💻 Desenvolvimento do Projeto
 > O projeto foi desenvolvido usando o frameWork Spring boot e a ultilizando o java <em>Maven</em>
 ---
 > No <strong>Controller</strong>
