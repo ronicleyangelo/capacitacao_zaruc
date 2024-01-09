@@ -18,4 +18,5 @@ e tenha o token.
     <li>Java</li>
     <li>SpringBoot</li>
     <li>SpringSecurity</li>  
+    ≤li>JWT Token</li>
 </ul>
