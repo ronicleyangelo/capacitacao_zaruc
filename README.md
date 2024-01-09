@@ -7,14 +7,13 @@
 ---
 
 ## Desenvolvimento do Projeto
-> O projeto foi desenvolvido usando o frameWork Spring boot e a ultilizando o java com Maven
+> O projeto foi desenvolvido usando o frameWork Spring boot e a ultilizando o java <em>Maven</em>
 ---
 > No <strong>Controller</strong>
 foi criado o <strong><em>AuthComtroller</em></strong> para lidar com a   autenticação do <em>Usuário</em>.
-Usamos SpringSecurity para lidar com autenticação e o uso do <em>JWT Token
+Usando <em>SpringSecurity<\em> para lidar com autenticação e o uso do <em>JWT Token
 </em> para quando o usuário fazer o login
-e tenha o token. 
-
+obtiver o token. 
 ---
 ## 👨‍💻 Tecnologia 
 > <ul>
