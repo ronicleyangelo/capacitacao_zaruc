@@ -8,3 +8,4 @@ API RESTFULL POST GET PUT DELETE.
 > O projeto foi desenvolvido usando o frameWork Spring boot e a ultilizando o java com Maven
 ---
 > <strong>Controller</strong>
+foi cria do <strong><em>AuthComtroller</em></strong>
