@@ -1,7 +1,7 @@
 ## 📌 Tarefa
 
 > Fazer um sistema de login com autenticação do usuário. Tendo o AutherController e UserControler usando a API RESTFULL POST GET PUT DELETE. 
-
+---
 
 ## Desenvolvimento do Projeto
 > O projeto foi desenvolvido usando o frameWork Spring boot e a ultilizando o java com Maven
@@ -12,7 +12,7 @@ Usamos SpringSecurity para lidar com autenticação e o uso do <em>JWT Token
 </em> para quando o usuário fazer o login
 e tenha o token. 
 
-
+---
 ## 👨‍💻 Tecnologia 
 > <ul>
 >    <li>Java</li>
