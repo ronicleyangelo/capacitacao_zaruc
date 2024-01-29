@@ -15,13 +15,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/auth")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -33,6 +32,7 @@ public class AuthController {
     TokenService tokenService;
     @Autowired
     UserService userService;
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public ResponseEntity<String> getUsers() {
         String users = "Welcome";
@@ -53,7 +53,7 @@ public class AuthController {
        String jwtToken = tokenService.generateToken(userDetails);
        return ResponseEntity.ok(new JwtResponse(jwtToken));
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(value = "/registrar-usuario", method = RequestMethod.POST)
     public ResponseEntity<?> registraUsuario(@RequestBody @Valid RegisterUserDTO registerUserDTO) {
         User user = userService.createUser(registerUserDTO);

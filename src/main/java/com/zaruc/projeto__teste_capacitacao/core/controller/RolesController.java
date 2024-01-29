@@ -5,6 +5,7 @@ import com.zaruc.projeto__teste_capacitacao.core.service.RolesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,6 +17,7 @@ import java.net.URI;
 public class RolesController {
     @Autowired
     RolesService rolesService;
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
     public ResponseEntity<?> insert(@Valid @RequestBody Roles roles) {
         roles = rolesService.insert(roles);

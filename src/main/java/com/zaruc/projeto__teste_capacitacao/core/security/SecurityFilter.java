@@ -54,9 +54,9 @@ public class SecurityFilter extends OncePerRequestFilter {
             log.debug("Token Header: {}", tokenHeader);
             String jwtToken = tokenHeader.substring(7);
             try {
-                System.out.println("Antes de chamar getUsernameFromToken");
+//                System.out.println("Antes de chamar getUsernameFromToken");
                 String username = tokenService.getUsernameFromToken(jwtToken);
-                System.out.println("Depois de chamar getUsernameFromToken, username: " + username);
+//                System.out.println("Depois de chamar getUsernameFromToken, username: " + username);
 
                 log.debug("Username from Token: {}", username);
                 UserDetails userDetails = userService.loadUserByUsername(username);

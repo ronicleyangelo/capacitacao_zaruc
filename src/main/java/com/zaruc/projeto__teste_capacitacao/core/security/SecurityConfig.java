@@ -67,11 +67,12 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/registrar-usuario").permitAll()
-                        .requestMatchers("/roles/cadastrar").permitAll()
-                        .requestMatchers("/auth/welcome").authenticated()
-                        .requestMatchers("/users/","/users/desativar-usuario/{id}").permitAll()
-                        .requestMatchers("/users/atualizar-usuario/{id}").permitAll()
+                        .requestMatchers("/auth/registrar-usuario").hasAnyRole("ADMIN")
+                        .requestMatchers("/roles/cadastrar").hasAnyRole("ADMIN")
+                        .requestMatchers("/auth/welcome").hasAnyRole("ADMIN")
+                        .requestMatchers("/users/","/users/desativar-usuario/{id}").hasAnyRole("ADMIN")
+                        .requestMatchers("/users/atualizar-usuario/{id}").hasAnyRole("ADMIN")
+                        .requestMatchers("/users/buscar-usuario").hasAnyRole("USER","ADMIN")
                         .anyRequest().authenticated()
                 ).exceptionHandling(https -> https.authenticationEntryPoint(authenticatedEntryPoint))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
